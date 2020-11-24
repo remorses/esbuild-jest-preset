@@ -1,4 +1,4 @@
-import { dirname, extname } from 'path'
+import path, { dirname, extname } from 'path'
 import type { RawSourceMap } from 'source-map'
 import sourceMapSupport from 'source-map-support'
 import { transformSync } from 'esbuild'
@@ -40,7 +40,13 @@ function createCompile({}) {
         if (warnings && warnings.length > 0) {
             for (const warning of warnings) {
                 // console.log(warning.location)
-                console.log(warning.text)
+                console.log(
+                    warning.text,
+                    `, at '${path.relative(
+                        process.cwd(),
+                        warning.location.file,
+                    )}' line ${warning.location.line}`,
+                )
             }
         }
         return js

@@ -32,7 +32,7 @@ function createCompile({}) {
             sourcemap: true,
             format: 'cjs',
             loader: getLoader(filename),
-            target: options.target,
+            target: options.target || 'es2018',
             jsxFactory: options.jsxFactory,
             jsxFragment: options.jsxFragment,
         })

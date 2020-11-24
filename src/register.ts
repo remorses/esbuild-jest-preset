@@ -24,29 +24,34 @@ function installSourceMapSupport() {
     })
 }
 
-function compile(code: string, filename: string) {
-    const options = getOptions(dirname(filename))
-    const { code: js, warnings, map: jsSourceMap } = transformSync(code, {
-        sourcefile: filename,
-        sourcemap: true,
-        loader: getLoader(filename),
-        target: options.target,
-        jsxFactory: options.jsxFactory,
-        jsxFragment: options.jsxFragment,
-    })
-    map[filename] = jsSourceMap
-    if (warnings && warnings.length > 0) {
-        for (const warning of warnings) {
-            console.log(warning.location)
-            console.log(warning.text)
+function createCompile({}) {
+    function compile(code: string, filename: string) {
+        const options = getOptions()
+        const { code: js, warnings, map: jsSourceMap } = transformSync(code, {
+            sourcefile: filename,
+            sourcemap: true,
+            format: 'cjs',
+            loader: getLoader(filename),
+            target: options.target,
+            jsxFactory: options.jsxFactory,
+            jsxFragment: options.jsxFragment,
+        })
+        map[filename] = jsSourceMap
+        if (warnings && warnings.length > 0) {
+            for (const warning of warnings) {
+                console.log(warning.location)
+                console.log(warning.text)
+            }
         }
+        return js
     }
-    return js
+    return compile
 }
 
-export function register() {
+export function register({ ignoreNodeModules = true, ...opts } = {}) {
     installSourceMapSupport()
-    addHook(compile, {
+    addHook(createCompile(opts), {
         exts: DEFAULT_EXTENSIONS,
+        ignoreNodeModules,
     })
 }

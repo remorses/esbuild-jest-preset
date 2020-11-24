@@ -7,6 +7,9 @@
     "types": "dist/index.d.ts",
     "files": [
         "dist",
+        "register",
+        "jest-preset.js",
+        "presets",
         "src"
     ],
     "scripts": {

@@ -39,7 +39,7 @@ function createCompile({}) {
         map[filename] = jsSourceMap
         if (warnings && warnings.length > 0) {
             for (const warning of warnings) {
-                console.log(warning.location)
+                // console.log(warning.location)
                 console.log(warning.text)
             }
         }

@@ -1,8 +1,9 @@
-import { Loader, transformSync } from 'esbuild'
-import { extname } from 'path'
+import { transformSync } from 'esbuild'
 import { getOptions } from './options'
 import { getLoader } from './support'
 
+
+// TODO when is async process available? we are spawning processes here
 export function process(content: string, filename: string) {
     const options = getOptions()
 

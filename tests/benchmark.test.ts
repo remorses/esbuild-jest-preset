@@ -11,14 +11,14 @@ const test = process.env.BENCHMARK ? it : it.skip
 
 test('benchmark', async () => {
     const benchDir = path.resolve('tests/bench-files')
+    const jestConfig = path.resolve(benchDir, 'jest.config.js')
+    try {
+        execSync('yarn jest -c ${jestConfig} --clearCache')
+    } catch {}
     const ms = await timedRun(() =>
-        execSync(
-            `yarn jest -c ${path.resolve(
-                benchDir,
-                'jest.config.js',
-            )} ${benchDir}`,
-            { stdio: 'inherit' },
-        ),
+        execSync(`yarn jest -c ${jestConfig} ${benchDir}`, {
+            stdio: 'inherit',
+        }),
     )
 
     process.stdout.write(`\n\ntook ${ms / 1000} seconds\n\n`)

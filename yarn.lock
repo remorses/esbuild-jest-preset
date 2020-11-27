@@ -1209,6 +1209,11 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
+esbuild-wasm@^0.8.16:
+  version "0.8.16"
+  resolved "https://registry.yarnpkg.com/esbuild-wasm/-/esbuild-wasm-0.8.16.tgz#4fba800ca69d4adfab1aa1d487ca58b5ef8ee1e1"
+  integrity sha512-w+JQqFLpJ7sMmuLu2iPku7Og9hM5WMpNyFtemxdGd7Mi2SHAGPe9h009z9KSC7bab3NPgPb++71AhQ6iBsY5SQ==
+
 esbuild@^0.8.14:
   version "0.8.14"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.8.14.tgz#e62c8304e85b74a3c88654aa21b030202d06d672"

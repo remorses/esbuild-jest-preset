@@ -1,3 +1,5 @@
+2x faster alternative to `ts-node`
+
 ```
 npm i esbuild-jest-preset
 ```

@@ -9,17 +9,37 @@ jest.setTimeout(100 * 1000)
 
 const test = process.env.BENCHMARK ? it : it.skip
 
-test('benchmark', async () => {
+describe('benchmark', () => {
     const benchDir = path.resolve('tests/bench-files')
-    const jestConfig = path.resolve(benchDir, 'jest.config.js')
-    try {
-        execSync('yarn jest -c ${jestConfig} --clearCache')
-    } catch {}
-    const ms = await timedRun(() =>
-        execSync(`yarn jest -c ${jestConfig} ${benchDir}`, {
-            stdio: 'inherit',
-        }),
-    )
 
-    process.stdout.write(`\n\ntook ${ms / 1000} seconds\n\n`)
+    const cases = [
+        {
+            name: 'esbuild',
+            config: path.resolve(benchDir, 'esbuild.config.js'),
+        },
+        {
+            name: 'ts-node',
+            config: path.resolve(benchDir, 'ts-jest.config.js'),
+        },
+    ]
+
+    let messages = []
+    afterAll(() => {
+        messages.forEach(x => process.stdout.write(x))
+    })
+    for (let testCase of cases) {
+        try {
+            execSync('yarn jest -c ${jestConfig} --clearCache', {
+                stdio: 'ignore',
+            })
+        } catch {}
+        test(testCase.name, async () => {
+            const ms = await timedRun(() =>
+                execSync(`yarn jest -c ${testCase.config} ${benchDir}`, {
+                    stdio: 'inherit',
+                }),
+            )
+            messages.push(`\n${testCase.name} took ${ms / 1000} seconds\n`)
+        })
+    }
 })
